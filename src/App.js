@@ -18,6 +18,22 @@ class App extends Component {
     filter: '',
   }
 
+  componentDidMount() {
+  const stored = JSON.parse(localStorage.getItem('contacts'));
+  console.log(stored);
+
+  if(stored) {
+    this.setState({contacts: stored});
+  }
+
+}
+
+  componentDidUpdate(_, prevState) {
+      if(this.state.contacts !== prevState.contacts) {
+      console.log('renewed');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   //adding and creating contacts
   onContactCreate = (data) => {
@@ -37,22 +53,6 @@ class App extends Component {
       }))
   }
 
-  componentDidMount() {
-    const stored = JSON.parse(localStorage.getItem('contacts'));
-    console.log(stored);
-
-    if(stored) {
-      this.setState({contacts: stored});
-    }
-
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-      if(this.state.contacts !== prevState.contacts) {
-      console.log('renewed');
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
 
   //filter by term
   onGetFilterData = (e) =>{
